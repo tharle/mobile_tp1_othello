@@ -11,11 +11,12 @@ import ca.bart.guifra.tp.databinding.ActivityMainBinding
 
 data class Cell(var pressed: Boolean = false)
 
-data class Player(var color: Int = Color.RED, var score: Int = 0 ,var isIA: Boolean = false)
+data class Player(var discId: Int = R.drawable.filled_disc_player_0, var score: Int = 0 ,var isIA: Boolean = false)
 
 data class Model(
     val grid: Array<Cell> = Array(9) { Cell() },
-    val players: Array<Player> = Array(4){Player()}
+    val players: Array<Player> = Array(4){Player()},
+    val currentPlayerIndex: Int = 0
 )
 
 class MainActivity : Activity() {
@@ -77,12 +78,18 @@ class MainActivity : Activity() {
         refresh()
     }
 
+    fun GetCurrentPlayer(): Player {
+        return model.players[model.currentPlayerIndex];
+    }
+
     fun refresh() {
 
-
+        val currentPlayer = GetCurrentPlayer();
         // update display of current player
+        binding.turnIcon.setBackgroundResource(currentPlayer.discId)
 
         // update player corners (score, state of skip button)
+        refreshPlayer0();
 
 
         model.grid.asSequence().zip(binding.grid.children)
@@ -96,9 +103,14 @@ class MainActivity : Activity() {
                     else R.drawable.empty_disc
                 )
             }
-
-
     }
+
+    fun refreshPlayer0() {
+        val player = model.players[0]
+        binding.player0Icon.setBackgroundResource(player.discId)
+        binding.player0Score.text = player.score.toString()
+        binding.player0Button.isEnabled = model.currentPlayerIndex == 0
+    } // TODO faire ça
 }
 
 

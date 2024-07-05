@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-    <!--PLAYER 1 -->
+    <!--PLAYER 0 -->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -19,10 +19,12 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
             <Button
+                android:id="@+id/player_0_icon"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:background="@drawable/filled_disc" />
             <TextView
+                android:id="@+id/player_0_score"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="30dp"
@@ -37,6 +39,7 @@
             android:layoutDirection="ltr"
             />
         <Button
+            android:id="@+id/player_0_button"
             android:layout_width="100dp"
             android:layout_height="50dp"
             android:text="Pass"
@@ -44,7 +47,7 @@
             />
     </LinearLayout>
 
-    <!--PLAYER 2 -->
+    <!--PLAYER 1 -->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -85,7 +88,7 @@
             />
     </LinearLayout>
 
-    <!--PLAYER 3 -->
+    <!--PLAYER 2 -->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -126,7 +129,7 @@
             />
     </LinearLayout>
 
-    <!--PLAYER 4 -->
+    <!--PLAYER 3 -->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -181,6 +184,7 @@
             android:textSize="30dp"
             />
         <Button
+            android:id="@+id/turn_icon"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:background="@drawable/filled_disc" />
