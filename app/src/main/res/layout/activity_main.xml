@@ -5,8 +5,191 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
+    <!--PLAYER 1 -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:gravity="left"
+        >
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+            <Button
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/filled_disc" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="30dp"
+                android:text="0"
+                />
+        </LinearLayout>
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30dp"
+            android:text="AI"
+            android:layoutDirection="ltr"
+            />
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:text="Pass"
+            android:enabled="false"
+            />
+    </LinearLayout>
+
+    <!--PLAYER 2 -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:gravity="right"
+        >
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="30dp"
+                android:text="0"
+                />
+            <Button
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/filled_disc" />
+        </LinearLayout>
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30dp"
+            android:text="AI"
+            android:layoutDirection="rtl"
+
+            />
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:text="Pass"
+            android:enabled="false"
+            />
+    </LinearLayout>
+
+    <!--PLAYER 3 -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:gravity="right"
+        >
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="30dp"
+                android:text="0"
+                />
+            <Button
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/filled_disc" />
+        </LinearLayout>
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30dp"
+            android:text="AI"
+            android:layoutDirection="rtl"
+
+            />
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:text="Pass"
+            android:enabled="false"
+            />
+    </LinearLayout>
+
+    <!--PLAYER 4 -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:gravity="left"
+        >
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+            <Button
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/filled_disc" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="30dp"
+                android:text="0"
+                />
+        </LinearLayout>
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30dp"
+            android:text="AI"
+            android:layoutDirection="ltr"
+            />
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:text="Pass"
+            android:enabled="false"
+            />
+    </LinearLayout>
+
+    <!--TURN -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Turn"
+            android:textSize="30dp"
+            />
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/filled_disc" />
+
+    </LinearLayout>
 
 
+
+    <!--GRID -->
     <GridLayout
         android:id="@+id/grid"
         android:layout_width="wrap_content"
@@ -55,5 +238,4 @@
             android:background="@drawable/empty_disc" />
 
     </GridLayout>
-
 </RelativeLayout>

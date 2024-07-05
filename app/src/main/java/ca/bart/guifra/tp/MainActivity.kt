@@ -1,6 +1,7 @@
 package ca.bart.guifra.tp
 
 import android.app.Activity
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.core.util.toAndroidXPair
@@ -10,7 +11,12 @@ import ca.bart.guifra.tp.databinding.ActivityMainBinding
 
 data class Cell(var pressed: Boolean = false)
 
-data class Model(val grid: Array<Cell> = Array(9) { Cell() })
+data class Player(var color: Int = Color.RED, var score: Int = 0 ,var isIA: Boolean = false)
+
+data class Model(
+    val grid: Array<Cell> = Array(9) { Cell() },
+    val players: Array<Player> = Array(4){Player()}
+)
 
 class MainActivity : Activity() {
 
