@@ -13,6 +13,7 @@ data class Player(var idPlayer: Int, var discId: Int = R.drawable.filled_disc, v
 
 data class Model(
     val grid: Array<Cell> = Array(64) { Cell() },
+    val validIdCells: List<Int> = listOf<Int>(1),
     val players: Array<Player> = arrayOf(
         Player(0, R.drawable.filled_disc_player_0),
         Player(1, R.drawable.filled_disc_player_1),
@@ -46,19 +47,34 @@ class MainActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-
         binding.grid.children.forEachIndexed { index, button ->
             button.setOnClickListener {
                 onButtonClicked(index)
             }
         }
 
+        binding.player0Button.setOnClickListener({nextPlayer()})
+        binding.player1Button.setOnClickListener({nextPlayer()})
+        binding.player2Button.setOnClickListener({nextPlayer()})
+        binding.player3Button.setOnClickListener({nextPlayer()})
+
+        initGrid()
+    }
+
+    fun initGrid(){
+
+        model.grid.forEach {
+            it.idPlayer = -1
+        }
+        model.grid[27].idPlayer = 0
+        model.grid[28].idPlayer = 1
+        model.grid[35].idPlayer = 3
+        model.grid[36].idPlayer = 2
+
         refresh()
     }
 
     fun onButtonClicked(index:Int) {
-
-
         val coordinates:Pair<Int, Int> = index.toCoordinates()
 
         Log.d(TAG, "onButtonClicked($index) = $coordinates")
@@ -66,29 +82,25 @@ class MainActivity : Activity() {
         Log.d(TAG, "coordinates.y = ${coordinates.y}")
         Log.d(TAG, "coordinates.toIndex() = ${coordinates.toIndex()}")
 
-
-
-
         model.grid[index + (NORTH + EAST)]?.idPlayer = model.currentIdPlayer
 
 
 
         // is this a valid move?
+        if(!model.validIdCells.contains(index)) return;
 
         // if yes, DO THE MOVE
+        model.grid[index].idPlayer = model.currentIdPlayer
 
         // player++ <--- new valid move list
-
-        model.grid[index].idPlayer = model.currentIdPlayer
         nextPlayer();
-        refresh()
     }
 
     fun nextPlayer()
     {
         model.currentIdPlayer++
         model.currentIdPlayer = if(model.currentIdPlayer < model.players.size) model.currentIdPlayer else 0
-
+        refresh()
     }
 
     fun GetCurrentPlayer(): Player {
@@ -103,6 +115,7 @@ class MainActivity : Activity() {
 
         // update player corners (score, state of skip button)
         refreshPlayers();
+        refreshValidCells();
 
         model.grid.asSequence().zip(binding.grid.children)
             .forEach { (cell, button) ->
@@ -118,39 +131,30 @@ class MainActivity : Activity() {
     }
 
     fun refreshPlayers() {
-        refreshPlayer0()
-        refreshPlayer1()
-        refreshPlayer2()
-        refreshPlayer3()
-    }
-
-    fun refreshPlayer0() {
-        val player: Player = model.players[0]
+        var player: Player = model.players[0]
         binding.player0Icon.setBackgroundResource(player.discId)
         binding.player0Score.text = player.score.toString()
         binding.player0Button.isEnabled = model.currentIdPlayer == player.idPlayer
-    }
 
-    fun refreshPlayer1() {
-        val player: Player = model.players[1]
+        player = model.players[1]
         binding.player1Icon.setBackgroundResource(player.discId)
         binding.player1Score.text = player.score.toString()
         binding.player1Button.isEnabled = model.currentIdPlayer == player.idPlayer
-    }
 
-    fun refreshPlayer2() {
-        val player: Player = model.players[2]
+        player = model.players[2]
         binding.player2Icon.setBackgroundResource(player.discId)
         binding.player2Score.text = player.score.toString()
         binding.player2Button.isEnabled = model.currentIdPlayer == player.idPlayer
-    }
 
-    fun refreshPlayer3() {
-        val player: Player = model.players[3]
+        player = model.players[3]
         binding.player3Icon.setBackgroundResource(player.discId)
         binding.player3Score.text = player.score.toString()
         binding.player3Button.isEnabled = model.currentIdPlayer == player.idPlayer
     }
+}
+
+private fun refreshValidCells(){
+    // TODO refreshir les cells qui sont valides pour le jouer du tour
 }
 
 
