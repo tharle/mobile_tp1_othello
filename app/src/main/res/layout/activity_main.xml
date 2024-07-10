@@ -62,12 +62,14 @@
             android:orientation="horizontal"
             >
             <TextView
+                android:id="@+id/player_1_score"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="30dp"
                 android:text="0"
                 />
             <Button
+                android:id="@+id/player_1_icon"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:background="@drawable/filled_disc" />
@@ -81,6 +83,7 @@
 
             />
         <Button
+            android:id="@+id/player_1_button"
             android:layout_width="100dp"
             android:layout_height="50dp"
             android:text="Pass"
@@ -103,12 +106,14 @@
             android:orientation="horizontal"
             >
             <TextView
+                android:id="@+id/player_2_score"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="30dp"
                 android:text="0"
                 />
             <Button
+                android:id="@+id/player_2_icon"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:background="@drawable/filled_disc" />
@@ -122,6 +127,7 @@
 
             />
         <Button
+            android:id="@+id/player_2_button"
             android:layout_width="100dp"
             android:layout_height="50dp"
             android:text="Pass"
@@ -143,10 +149,12 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
             <Button
+                android:id="@+id/player_3_icon"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:background="@drawable/filled_disc" />
             <TextView
+                android:id="@+id/player_3_score"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="30dp"
@@ -161,6 +169,7 @@
             android:layoutDirection="ltr"
             />
         <Button
+            android:id="@+id/player_3_button"
             android:layout_width="100dp"
             android:layout_height="50dp"
             android:text="Pass"
@@ -199,9 +208,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:columnCount="3"
-        android:rowCount="3">
-
+        android:columnCount="8"
+        android:rowCount="8">
+        <!--Ligne 1-->
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/empty_disc" />
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/empty_disc" />
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/empty_disc" />
         <Button
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -223,11 +244,62 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:background="@drawable/empty_disc" />
+
+        <!--Ligne 2-->
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/empty_disc" />
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/empty_disc" />
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/empty_disc" />
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/empty_disc" />
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/empty_disc" />
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/empty_disc" />
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/empty_disc" />
         <Button
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:background="@drawable/empty_disc" />
 
+        <!--Ligne 3-->
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/empty_disc" />
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/empty_disc" />
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/empty_disc" />
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/empty_disc" />
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/empty_disc" />
         <Button
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -241,5 +313,174 @@
             android:layout_height="30dp"
             android:background="@drawable/empty_disc" />
 
+        <!--Ligne 4-->
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/empty_disc" />
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/empty_disc" />
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/empty_disc" />
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/empty_disc" />
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/empty_disc" />
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/empty_disc" />
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/empty_disc" />
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/empty_disc" />
+
+        <!--Ligne 5-->
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/empty_disc" />
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/empty_disc" />
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/empty_disc" />
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/empty_disc" />
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/empty_disc" />
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/empty_disc" />
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/empty_disc" />
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/empty_disc" />
+
+        <!--Ligne 6-->
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/empty_disc" />
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/empty_disc" />
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/empty_disc" />
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/empty_disc" />
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/empty_disc" />
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/empty_disc" />
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/empty_disc" />
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/empty_disc" />
+
+        <!--Ligne 7-->
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/empty_disc" />
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/empty_disc" />
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/empty_disc" />
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/empty_disc" />
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/empty_disc" />
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/empty_disc" />
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/empty_disc" />
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/empty_disc" />
+
+        <!--Ligne 8-->
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/empty_disc" />
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/empty_disc" />
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/empty_disc" />
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/empty_disc" />
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/empty_disc" />
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/empty_disc" />
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/empty_disc" />
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/empty_disc" />
     </GridLayout>
 </RelativeLayout>

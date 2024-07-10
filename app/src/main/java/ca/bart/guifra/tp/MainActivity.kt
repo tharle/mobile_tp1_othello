@@ -1,22 +1,25 @@
 package ca.bart.guifra.tp
 
 import android.app.Activity
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
-import androidx.core.util.toAndroidXPair
 import androidx.core.view.children
 import ca.bart.guifra.tp.databinding.ActivityMainBinding
 
 
-data class Cell(var pressed: Boolean = false)
+data class Cell(var idPlayer: Int = -1)
 
-data class Player(var discId: Int = R.drawable.filled_disc_player_0, var score: Int = 0 ,var isIA: Boolean = false)
+data class Player(var idPlayer: Int, var discId: Int = R.drawable.filled_disc, var score: Int = 0 ,var isIA: Boolean = false)
 
 data class Model(
-    val grid: Array<Cell> = Array(9) { Cell() },
-    val players: Array<Player> = Array(4){Player()},
-    val currentPlayerIndex: Int = 0
+    val grid: Array<Cell> = Array(64) { Cell() },
+    val players: Array<Player> = arrayOf(
+        Player(0, R.drawable.filled_disc_player_0),
+        Player(1, R.drawable.filled_disc_player_1),
+        Player(2, R.drawable.filled_disc_player_2),
+        Player(3, R.drawable.filled_disc_player_3)
+    ),
+    var currentIdPlayer: Int = 0
 )
 
 class MainActivity : Activity() {
@@ -49,6 +52,8 @@ class MainActivity : Activity() {
                 onButtonClicked(index)
             }
         }
+
+        refresh()
     }
 
     fun onButtonClicked(index:Int) {
@@ -64,7 +69,7 @@ class MainActivity : Activity() {
 
 
 
-        model.grid[index + (NORTH + EAST)]?.pressed = true
+        model.grid[index + (NORTH + EAST)]?.idPlayer = model.currentIdPlayer
 
 
 
@@ -74,12 +79,20 @@ class MainActivity : Activity() {
 
         // player++ <--- new valid move list
 
-        model.grid[index].pressed = true
+        model.grid[index].idPlayer = model.currentIdPlayer
+        nextPlayer();
         refresh()
     }
 
+    fun nextPlayer()
+    {
+        model.currentIdPlayer++
+        model.currentIdPlayer = if(model.currentIdPlayer < model.players.size) model.currentIdPlayer else 0
+
+    }
+
     fun GetCurrentPlayer(): Player {
-        return model.players[model.currentPlayerIndex];
+        return model.players[model.currentIdPlayer];
     }
 
     fun refresh() {
@@ -89,8 +102,7 @@ class MainActivity : Activity() {
         binding.turnIcon.setBackgroundResource(currentPlayer.discId)
 
         // update player corners (score, state of skip button)
-        refreshPlayer0();
-
+        refreshPlayers();
 
         model.grid.asSequence().zip(binding.grid.children)
             .forEach { (cell, button) ->
@@ -99,18 +111,46 @@ class MainActivity : Activity() {
 
                 button.setBackgroundResource(
                     // probablement un "when" pour vous..
-                    if (cell.pressed) R.drawable.filled_disc
-                    else R.drawable.empty_disc
+                    if (cell.idPlayer == -1) R.drawable.empty_disc
+                    else model.players[cell.idPlayer].discId
                 )
             }
     }
 
+    fun refreshPlayers() {
+        refreshPlayer0()
+        refreshPlayer1()
+        refreshPlayer2()
+        refreshPlayer3()
+    }
+
     fun refreshPlayer0() {
-        val player = model.players[0]
+        val player: Player = model.players[0]
         binding.player0Icon.setBackgroundResource(player.discId)
         binding.player0Score.text = player.score.toString()
-        binding.player0Button.isEnabled = model.currentPlayerIndex == 0
-    } // TODO faire ça
+        binding.player0Button.isEnabled = model.currentIdPlayer == player.idPlayer
+    }
+
+    fun refreshPlayer1() {
+        val player: Player = model.players[1]
+        binding.player1Icon.setBackgroundResource(player.discId)
+        binding.player1Score.text = player.score.toString()
+        binding.player1Button.isEnabled = model.currentIdPlayer == player.idPlayer
+    }
+
+    fun refreshPlayer2() {
+        val player: Player = model.players[2]
+        binding.player2Icon.setBackgroundResource(player.discId)
+        binding.player2Score.text = player.score.toString()
+        binding.player2Button.isEnabled = model.currentIdPlayer == player.idPlayer
+    }
+
+    fun refreshPlayer3() {
+        val player: Player = model.players[3]
+        binding.player3Icon.setBackgroundResource(player.discId)
+        binding.player3Score.text = player.score.toString()
+        binding.player3Button.isEnabled = model.currentIdPlayer == player.idPlayer
+    }
 }
 
 
