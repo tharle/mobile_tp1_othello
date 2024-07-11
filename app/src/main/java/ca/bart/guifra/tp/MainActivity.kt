@@ -3,6 +3,7 @@ package ca.bart.guifra.tp
 import android.app.Activity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.core.view.children
 import ca.bart.guifra.tp.databinding.ActivityMainBinding
 
@@ -62,12 +63,36 @@ class MainActivity : Activity() {
             }
         }
 
-        binding.player0Button.setOnClickListener({ nextPlayer() })
-        binding.player1Button.setOnClickListener({ nextPlayer() })
-        binding.player2Button.setOnClickListener({ nextPlayer() })
-        binding.player3Button.setOnClickListener({ nextPlayer() })
+        binding.player0Button.setOnClickListener { nextPlayer() }
+        binding.player1Button.setOnClickListener { nextPlayer() }
+        binding.player2Button.setOnClickListener { nextPlayer() }
+        binding.player3Button.setOnClickListener { nextPlayer() }
+
+        binding.player0CbIA.setOnClickListener { tooglePlayer(0, it) }
+        binding.player1CbIA.setOnClickListener { tooglePlayer(0, it) }
+        binding.player2CbIA.setOnClickListener { tooglePlayer(0, it) }
+        binding.player3CbIA.setOnClickListener { tooglePlayer(0, it) }
 
         initGrid()
+    }
+
+    fun tooglePlayer(idPlayer: Int, checkBox: View){
+        val buttonText = if(checkBox.isSelected) "Play" else "Pass"
+
+        when(idPlayer){
+            0 -> {
+                binding.player0Button.text = buttonText
+            }
+            1 -> {
+                binding.player1Button.text = buttonText
+            }
+            2 -> {
+                binding.player2Button.text = buttonText
+            }
+            3 -> {
+                binding.player3Button.text = buttonText
+            }
+        }
     }
 
     fun initGrid() {
@@ -75,11 +100,12 @@ class MainActivity : Activity() {
         model.grid.forEach {
             it.idPlayer = ID_PLAYER_EMPTY
         }
+
         model.grid[27].idPlayer = 0
         model.grid[28].idPlayer = 1
         model.grid[35].idPlayer = 3
         model.grid[36].idPlayer = 2
-
+        model.players.forEach { player -> player.score = 1 }
         checkAndAddAllValidsCells()
         refresh()
     }
@@ -100,11 +126,21 @@ class MainActivity : Activity() {
         model.grid[index].idPlayer = model.currentIdPlayer
 
         // Get all from the direction
-        //model.grid[index + (NORTH + EAST)]?.idPlayer = model.currentIdPlayer
         convertAll(coordinates)
+
+        //update all scores
+        UpdateScores()
 
         // player++ <--- new valid move list
         nextPlayer();
+    }
+
+    fun UpdateScores(){
+        model.players.forEach { player -> player.score = 0 }
+
+        model.grid
+            .filter { cell  -> cell.idPlayer != ID_PLAYER_VALID && cell.idPlayer != ID_PLAYER_EMPTY }
+            .forEach { cell -> model.players[cell.idPlayer].score++ }
     }
 
     fun nextPlayer() {

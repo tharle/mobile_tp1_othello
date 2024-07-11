@@ -32,6 +32,7 @@
                 />
         </LinearLayout>
         <CheckBox
+            android:id="@+id/player_0_cbIA"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="30dp"
@@ -75,6 +76,7 @@
                 android:background="@drawable/filled_disc" />
         </LinearLayout>
         <CheckBox
+            android:id="@+id/player_1_cbIA"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="30dp"
@@ -119,6 +121,7 @@
                 android:background="@drawable/filled_disc" />
         </LinearLayout>
         <CheckBox
+            android:id="@+id/player_2_cbIA"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="30dp"
@@ -162,6 +165,7 @@
                 />
         </LinearLayout>
         <CheckBox
+            android:id="@+id/player_3_cbIA"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="30dp"
