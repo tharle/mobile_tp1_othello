@@ -80,7 +80,7 @@ class MainActivity : Activity() {
         model.grid[35].idPlayer = 3
         model.grid[36].idPlayer = 2
 
-        calculValidsCells()
+        checkAndAddAllValidsCells()
         refresh()
     }
 
@@ -112,7 +112,7 @@ class MainActivity : Activity() {
         model.currentIdPlayer =
             if (model.currentIdPlayer < model.players.size) model.currentIdPlayer else 0
 
-        calculValidsCells()
+        checkAndAddAllValidsCells()
 
         refresh()
     }
@@ -122,7 +122,8 @@ class MainActivity : Activity() {
         model.grid[index].idPlayer = ID_PLAYER_VALID
     }
 
-    fun calculValidsCells() {
+    //Check and add all valids cells for current player
+    fun checkAndAddAllValidsCells() {
         cleanCellsValids()
 
         val idPlayer = model.currentIdPlayer
@@ -148,14 +149,28 @@ class MainActivity : Activity() {
                             val idCell = coordinates.toIndex()
                             val playerLoop = model.grid[idCell]
 
+                            when(playerLoop.idPlayer){
+                                ID_PLAYER_EMPTY -> {
+                                    if(idsCellEnemiesFound.isNotEmpty()) addValidCell(idCell)
+                                    break // if found empty space, end it
+                                }
+                                // if found one valid, just jump for next check
+                                ID_PLAYER_VALID -> break
+                                // if same id, restart list of cells to convert
+                                idPlayer        -> idsCellEnemiesFound.clear()
+                                // add to list to convert all
+                                else            -> idsCellEnemiesFound.add(idCell)
+                            }
+
                             if(playerLoop.idPlayer == ID_PLAYER_EMPTY) {
-                                if(idsCellEnemiesFound.isNotEmpty()) addValidCell(idCell)
-                                break // if found empty space, end it
+
+                            } else if(playerLoop.idPlayer == ID_PLAYER_EMPTY) {
+
                             }  else if(playerLoop.idPlayer == idPlayer) {
-                                idsCellEnemiesFound.clear()  // if same id, restart list of cells to convert
+                                idsCellEnemiesFound.clear()
                             }
                             else {
-                                idsCellEnemiesFound.add(idCell) // add to list to convert all
+                                idsCellEnemiesFound.add(idCell)
                             }
 
                             coordinates = coordinates.plus(direction)
