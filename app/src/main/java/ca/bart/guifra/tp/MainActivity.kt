@@ -101,7 +101,7 @@ class MainActivity : Activity() {
 
         // Get all from the direction
         //model.grid[index + (NORTH + EAST)]?.idPlayer = model.currentIdPlayer
-
+        convertAll(coordinates)
 
         // player++ <--- new valid move list
         nextPlayer();
@@ -132,8 +132,6 @@ class MainActivity : Activity() {
         model.grid.forEach {
             if (it.idPlayer == idPlayer) {
 
-                //val direction = SOUTH
-
                 // Check all valids
                 for(x in -1 .. 1) {
                     for(y in -1 .. 1) {
@@ -162,29 +160,60 @@ class MainActivity : Activity() {
                                 else            -> idsCellEnemiesFound.add(idCell)
                             }
 
-                            if(playerLoop.idPlayer == ID_PLAYER_EMPTY) {
-
-                            } else if(playerLoop.idPlayer == ID_PLAYER_EMPTY) {
-
-                            }  else if(playerLoop.idPlayer == idPlayer) {
-                                idsCellEnemiesFound.clear()
-                            }
-                            else {
-                                idsCellEnemiesFound.add(idCell)
-                            }
-
                             coordinates = coordinates.plus(direction)
                         }
                     }
                 }
 
-                //Converts all we found in our way to empty space
-                //idCellsToConvert.forEach{idCell -> model.grid[idCell]?.idPlayer = idPlayer}
-
             }
 
             index++
         }
+    }
+
+    fun convertAll(startPosition: Pair<Int, Int>) {
+
+        val allIdCellsToConvert: ArrayList<Int> = ArrayList()
+        val idPlayer = model.currentIdPlayer
+        model.grid.forEach {
+            if (it.idPlayer == idPlayer) {
+                // Check all valids
+                for(x in -1 .. 1) {
+                    for(y in -1 .. 1) {
+                        val direction = Pair(x, y)
+
+                        if(direction.x == 0 && direction.y == 0) continue
+
+                        val idCellsToConvert: ArrayList<Int> = ArrayList()
+                        var coordinate: Pair<Int, Int> = startPosition.plus(direction)
+                        while (
+                            (direction.x != 0 && coordinate.x in 0 until NB_COLUMNS)
+                            || (direction.y != 0 && coordinate.y in 0 until NB_ROWS)) {
+                            val idCell = coordinate.toIndex()
+                            val playerLoop = model.grid[idCell]
+
+                            when(playerLoop.idPlayer){
+                                ID_PLAYER_EMPTY -> break // if found empty space, end it
+                                // if found one valid, just jump for next check
+                                ID_PLAYER_VALID -> break
+                                // if same id, restart list of cells to convert
+                                idPlayer        -> {
+                                    allIdCellsToConvert.addAll(idCellsToConvert)
+                                    break
+                                }
+                                // add to list to convert all
+                                else            -> idCellsToConvert.add(idCell)
+                            }
+
+                            coordinate = coordinate.plus(direction)
+                        }
+                    }
+                }
+            }
+        }
+
+        //Converts all we found in our way to empty space
+        allIdCellsToConvert.forEach{idCell -> model.grid[idCell]?.idPlayer = idPlayer}
     }
 
     fun cleanCellsValids() {
