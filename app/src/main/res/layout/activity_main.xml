@@ -213,12 +213,15 @@
                 android:layout_height="wrap_content"
                 android:textSize="20dp"
                 android:text="/"
+                android:visibility="gone"
                 />
             <Button
                 android:id="@+id/turn_revenge_icon"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:background="@drawable/filled_disc" />
+                android:background="@drawable/filled_disc"
+                android:visibility="gone"
+                />
         </LinearLayout>
     </LinearLayout>
 

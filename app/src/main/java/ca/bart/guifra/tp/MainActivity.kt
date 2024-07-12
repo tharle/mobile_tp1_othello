@@ -315,8 +315,8 @@ class MainActivity : Activity() {
             binding.turnRevengeIcon.visibility = View.VISIBLE
             binding.turnRevengeSeparator.visibility = View.VISIBLE
         } else {
-            binding.turnRevengeIcon.visibility = View.INVISIBLE
-            binding.turnRevengeSeparator.visibility = View.INVISIBLE
+            binding.turnRevengeIcon.visibility = View.GONE
+            binding.turnRevengeSeparator.visibility = View.GONE
         }
 
         // update player corners (score, state of skip button)
