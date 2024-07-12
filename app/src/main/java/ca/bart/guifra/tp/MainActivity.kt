@@ -15,7 +15,8 @@ data class Cell(var idCell: Int, var idPlayer: Int = -1)
 data class Player(
     var idPlayer: Int,
     var idDisc: Int = R.drawable.filled_disc,
-    var score: Int = 0
+    var score: Int = 0,
+    var idRevenge: Int = MainActivity.ID_PLAYER_EMPTY
 )
 
 data class Model(
@@ -149,11 +150,17 @@ class MainActivity : Activity() {
     }
 
     fun updateScores(){
-        model.players.forEach { player -> player.score = 0 }
+        model.players.forEach { player ->
+            player.score = 0
+            player.idRevenge = if(player.idRevenge == ID_PLAYER_EMPTY) model.currentIdPlayer else player.idRevenge
+        }
 
         model.grid
             .filter { cell  -> cell.idPlayer != ID_PLAYER_VALID && cell.idPlayer != ID_PLAYER_EMPTY }
-            .forEach { cell -> model.players[cell.idPlayer].score++ }
+            .forEach { cell ->
+                model.players[cell.idPlayer].score++
+                model.players[cell.idPlayer].idRevenge = ID_PLAYER_EMPTY
+            }
     }
 
     fun nextPlayer() {
@@ -181,9 +188,10 @@ class MainActivity : Activity() {
                 coordinates.x == 0 || coordinates.x == NB_COLUMNS || coordinates.y == 0 || coordinates.y == NB_ROWS }
 
         if(idCellsFound.isEmpty()) idCellsFound = model.validIdCells
+        if(idCellsFound.isEmpty()) return;
 
         val indexIA = Random.nextInt(idCellsFound.size - 1)
-        onButtonGridClicked(indexIA)
+        onButtonGridClicked(idCellsFound[indexIA])
 
     }
 
@@ -195,8 +203,9 @@ class MainActivity : Activity() {
     //Check and add all valids cells for current player
     fun checkAndAddAllValidsCells() {
         cleanCellsValids()
+        val currentPlayer = model.players[model.currentIdPlayer]
 
-        val idPlayer = model.currentIdPlayer
+        val idPlayer = if(currentPlayer.score <= 0 && currentPlayer.idRevenge != ID_PLAYER_EMPTY) currentPlayer.idRevenge else currentPlayer.idPlayer
 
         var index = 0
         model.grid.forEach {
