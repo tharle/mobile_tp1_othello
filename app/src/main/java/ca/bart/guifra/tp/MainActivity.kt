@@ -48,8 +48,6 @@ class MainActivity : Activity() {
         val WEST = Pair(-1, 0)
         val EAST = Pair(1, 0)
         val SOUTH = Pair(0, 1)
-
-
     }
 
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
@@ -139,7 +137,7 @@ class MainActivity : Activity() {
         model.grid[index].idPlayer = model.currentIdPlayer
 
         // Get all from the direction
-        converCelltAll(coordinates)
+        convertirAllCell(coordinates)
 
         //update all scores
         updateScores()
@@ -249,12 +247,14 @@ class MainActivity : Activity() {
         }
     }
 
-    fun converCelltAll(startPosition: Pair<Int, Int>) {
+    fun convertirAllCell(startPosition: Pair<Int, Int>) {
 
         val allIdCellsToConvert: ArrayList<Int> = ArrayList()
-        val idPlayer = model.currentIdPlayer
-        model.grid.forEach {
-            if (it.idPlayer == idPlayer) {
+        val player = getCurrentPlayer()
+        val idPlayerTarget = if(player.idRevenge == ID_PLAYER_EMPTY) player.idPlayer else player.idRevenge
+        model.grid
+            .filter { cell -> cell.idPlayer == idPlayerTarget }
+            .forEach {cell ->
                 // Check all valids
                 for(x in WEST.x .. EAST.x) {
                     for(y in NORTH.y .. SOUTH.y) {
@@ -275,7 +275,7 @@ class MainActivity : Activity() {
                                 // if found one valid, just jump for next check
                                 ID_PLAYER_VALID -> break
                                 // if same id, restart list of cells to convert
-                                idPlayer        -> {
+                                idPlayerTarget  -> {
                                     allIdCellsToConvert.addAll(idCellsToConvert)
                                     break
                                 }
@@ -287,11 +287,10 @@ class MainActivity : Activity() {
                         }
                     }
                 }
-            }
         }
 
         //Converts all we found in our way to empty space
-        allIdCellsToConvert.forEach{idCell -> model.grid[idCell]?.idPlayer = idPlayer}
+        allIdCellsToConvert.forEach{idCell -> model.grid[idCell]?.idPlayer = player.idPlayer}
     }
 
     fun cleanCellsValids() {
