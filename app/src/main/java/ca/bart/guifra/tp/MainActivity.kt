@@ -215,10 +215,8 @@ class MainActivity : Activity() {
                 coordinates.x == 0 || coordinates.x == (NB_COLUMNS - 1) || coordinates.y == 0 || coordinates.y == (NB_ROWS - 1) }
 
         if(idCellsFound.isEmpty()) idCellsFound = model.validIdCells
-        val indexMax = idCellsFound.size - 1
-        if(indexMax < 0) return
-
-        val indexIA = if(indexMax > 0) Random.nextInt(indexMax) else 0
+        val maxIndex = idCellsFound.size - 1
+        val indexIA = if(maxIndex > 0) Random.nextInt(maxIndex) else 0
         onButtonGridClicked(idCellsFound[indexIA])
 
     }
