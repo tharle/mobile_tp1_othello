@@ -312,6 +312,17 @@ class MainActivity : Activity() {
         // update display of current player
         binding.turnIcon.setBackgroundResource(currentPlayer.idDisc)
 
+        if(currentPlayer.idRevenge != ID_PLAYER_EMPTY) {
+            binding.turnRevengeIcon.setBackgroundResource(model.players[currentPlayer.idRevenge].idDisc)
+            binding.turnRevengeIcon.visibility = View.VISIBLE
+            binding.turnRevengeSeparator.visibility = View.VISIBLE
+        } else {
+            binding.turnRevengeIcon.visibility = View.INVISIBLE
+            binding.turnRevengeSeparator.visibility = View.INVISIBLE
+        }
+/*        else
+            binding.turnRevenge.visibility = 0*/
+
         // update player corners (score, state of skip button)
         refreshPlayers();
 
