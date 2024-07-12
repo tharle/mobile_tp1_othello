@@ -4,6 +4,7 @@ import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.CheckBox
 import androidx.core.view.children
 import ca.bart.guifra.tp.databinding.ActivityMainBinding
 
@@ -68,16 +69,20 @@ class MainActivity : Activity() {
         binding.player2Button.setOnClickListener { nextPlayer() }
         binding.player3Button.setOnClickListener { nextPlayer() }
 
-        binding.player0CbIA.setOnClickListener { tooglePlayer(0, it) }
-        binding.player1CbIA.setOnClickListener { tooglePlayer(0, it) }
-        binding.player2CbIA.setOnClickListener { tooglePlayer(0, it) }
-        binding.player3CbIA.setOnClickListener { tooglePlayer(0, it) }
+        binding.player0CbIA.setOnClickListener { toogleIAButton(0, it) }
+        binding.player1CbIA.setOnClickListener { toogleIAButton(1, it) }
+        binding.player2CbIA.setOnClickListener { toogleIAButton(2, it) }
+        binding.player3CbIA.setOnClickListener { toogleIAButton(3, it) }
 
         initGrid()
     }
 
-    fun tooglePlayer(idPlayer: Int, checkBox: View){
-        val buttonText = if(checkBox.isSelected) "Play" else "Pass"
+    fun toogleIAButton(idPlayer: Int, button: View){
+        if(button !is CheckBox) return;
+
+        val checkBox:CheckBox = button;
+
+        val buttonText = if(checkBox.isChecked) "Play" else "Pass"
 
         when(idPlayer){
             0 -> {
@@ -126,16 +131,16 @@ class MainActivity : Activity() {
         model.grid[index].idPlayer = model.currentIdPlayer
 
         // Get all from the direction
-        convertAll(coordinates)
+        converCelltAll(coordinates)
 
         //update all scores
-        UpdateScores()
+        updateScores()
 
         // player++ <--- new valid move list
         nextPlayer();
     }
 
-    fun UpdateScores(){
+    fun updateScores(){
         model.players.forEach { player -> player.score = 0 }
 
         model.grid
@@ -207,7 +212,7 @@ class MainActivity : Activity() {
         }
     }
 
-    fun convertAll(startPosition: Pair<Int, Int>) {
+    fun converCelltAll(startPosition: Pair<Int, Int>) {
 
         val allIdCellsToConvert: ArrayList<Int> = ArrayList()
         val idPlayer = model.currentIdPlayer
@@ -292,21 +297,25 @@ class MainActivity : Activity() {
         binding.player0Icon.setBackgroundResource(player.idDisc)
         binding.player0Score.text = player.score.toString()
         binding.player0Button.isEnabled = model.currentIdPlayer == player.idPlayer
+        binding.player0CbIA.isEnabled = model.currentIdPlayer == player.idPlayer
 
         player = model.players[1]
         binding.player1Icon.setBackgroundResource(player.idDisc)
         binding.player1Score.text = player.score.toString()
         binding.player1Button.isEnabled = model.currentIdPlayer == player.idPlayer
+        binding.player1CbIA.isEnabled = model.currentIdPlayer == player.idPlayer
 
         player = model.players[2]
         binding.player2Icon.setBackgroundResource(player.idDisc)
         binding.player2Score.text = player.score.toString()
         binding.player2Button.isEnabled = model.currentIdPlayer == player.idPlayer
+        binding.player2CbIA.isEnabled = model.currentIdPlayer == player.idPlayer
 
         player = model.players[3]
         binding.player3Icon.setBackgroundResource(player.idDisc)
         binding.player3Score.text = player.score.toString()
         binding.player3Button.isEnabled = model.currentIdPlayer == player.idPlayer
+        binding.player3CbIA.isEnabled = model.currentIdPlayer == player.idPlayer
     }
 }
 
