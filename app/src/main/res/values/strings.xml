@@ -4,4 +4,8 @@
     <string name="pass">Pass</string>
     <string name="turn">Turn</string>
     <string name="play">Play</string>
+    <string name="game_over">Game Over</string>
+    <string name="new_game_question">New game?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

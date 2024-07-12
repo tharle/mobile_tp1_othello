@@ -1,6 +1,8 @@
 package ca.bart.guifra.tp
 
 import android.app.Activity
+import android.app.AlertDialog
+import android.app.Application
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
@@ -27,14 +29,16 @@ data class Player(
 @Parcelize
 data class Model(
     val grid: Array<Cell> = Array(64) { Cell(it) },
-    val validIdCells: ArrayList<Int> = arrayListOf<Int>(),
+    var validIdCells: Array<Int> = arrayOf<Int>(),
     val players: Array<Player> = arrayOf(
         Player(0, R.drawable.filled_disc_player_0),
         Player(1, R.drawable.filled_disc_player_1),
         Player(2, R.drawable.filled_disc_player_2),
         Player(3, R.drawable.filled_disc_player_3)
     ),
-    var currentIdPlayer: Int = 0
+    var currentIdPlayer: Int = 0,
+    var passCount: Int = 0,
+    var turnCount: Int = 0
 ) : Parcelable {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -46,9 +50,12 @@ data class Model(
         if (validIdCells != other.validIdCells) return false
         if (!players.contentEquals(other.players)) return false
         if (currentIdPlayer != other.currentIdPlayer) return false
+        if (passCount != other.passCount) return false
+        if (turnCount != other.turnCount) return false
 
         return true
     }
+
 
     override fun hashCode(): Int {
         var result = grid.contentHashCode()
@@ -112,6 +119,10 @@ class MainActivity : Activity() {
             it.idPlayer = ID_PLAYER_EMPTY
         }
 
+        model.currentIdPlayer = 0
+        model.passCount = 0
+        model.turnCount = model.players.size
+
         model.grid[27].idPlayer = 0
         model.grid[28].idPlayer = 1
         model.grid[35].idPlayer = 3
@@ -147,9 +158,8 @@ class MainActivity : Activity() {
 
     private fun onButtonPlayerClicked(isIACheckd: Boolean) {
         if(isIACheckd) doIAChoise();
-        else nextPlayer()
+        else doPassTurn()
     }
-
 
     private fun onButtonGridClicked(index: Int) {
         val coordinates: Pair<Int, Int> = index.toCoordinates()
@@ -160,11 +170,18 @@ class MainActivity : Activity() {
         Log.d(TAG, "coordinates.toIndex() = ${coordinates.toIndex()}")
 
         // is this a valid move?
-        if (!model.validIdCells.contains(index)) return;
+        if (!model.validIdCells.contains(index)) return
 
 
         // if yes, DO THE MOVE
         model.grid[index].idPlayer = model.currentIdPlayer
+
+        // Reset count for pass
+        model.passCount = 0
+
+        //Add count
+        model.turnCount++
+        if(model.turnCount >= NB_ROWS * NB_COLUMNS) showEndGameDialog()
 
         // Get all from the direction
         convertirAllCell(coordinates)
@@ -200,6 +217,18 @@ class MainActivity : Activity() {
         refresh()
     }
 
+
+    //Event when player pass turn
+    private fun doPassTurn()
+    {
+        model.passCount++
+
+        if(model.passCount >= model.players.size) showEndGameDialog()
+
+        nextPlayer()
+    }
+
+    //Event when IA plays
     private fun doIAChoise() {
 
         if(model.validIdCells.isEmpty())
@@ -214,7 +243,7 @@ class MainActivity : Activity() {
                 val coordinates = index.toCoordinates()
                 coordinates.x == 0 || coordinates.x == (NB_COLUMNS - 1) || coordinates.y == 0 || coordinates.y == (NB_ROWS - 1) }
 
-        if(idCellsFound.isEmpty()) idCellsFound = model.validIdCells
+        if(idCellsFound.isEmpty()) idCellsFound = model.validIdCells.toList()
         val maxIndex = idCellsFound.size - 1
         val indexIA = if(maxIndex > 0) Random.nextInt(maxIndex) else 0
         onButtonGridClicked(idCellsFound[indexIA])
@@ -222,7 +251,7 @@ class MainActivity : Activity() {
     }
 
     private fun addValidCell(index: Int) {
-        model.validIdCells.add(index)
+        model.validIdCells += index
         model.grid[index].idPlayer = ID_PLAYER_VALID
     }
 
@@ -323,7 +352,7 @@ class MainActivity : Activity() {
     }
 
     private fun cleanCellsValids() {
-        model.validIdCells.clear()
+        model.validIdCells = emptyArray()
         model.grid
             .filter { cell -> cell.idPlayer == ID_PLAYER_VALID }
             .forEach { cell -> cell.idPlayer = ID_PLAYER_EMPTY }
@@ -427,7 +456,25 @@ class MainActivity : Activity() {
 
     }
 
+    private fun showEndGameDialog()
+    {
+        val builder = AlertDialog.Builder(this)
+        builder
+            .setTitle(getString(R.string.game_over))
+            .setMessage(getString(R.string.new_game_question))
+            .setCancelable(false)
+            .setPositiveButton(getString(R.string.yes)) { _, _ ->
+                initGrid()
+            }
+            .setNegativeButton(getString(R.string.no)) { _, _ ->
+                finishAffinity()
+            }
+        // Create the AlertDialog object and return it.
+        builder.create().show()
+    }
+
 }
+
 
 
 private fun Int.toCoordinates() =

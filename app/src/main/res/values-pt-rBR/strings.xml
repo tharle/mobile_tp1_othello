@@ -5,4 +5,8 @@
     <string name="pass">Passar</string>
     <string name="turn">Turno</string>
     <string name="play">Jogar</string>
+    <string name="game_over">Fim de jogo</string>
+    <string name="new_game_question">Nova partida?</string>
+    <string name="yes">Sim</string>
+    <string name="no">Não</string>
 </resources>
