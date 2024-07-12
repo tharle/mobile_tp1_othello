@@ -94,7 +94,7 @@ class MainActivity : Activity() {
     }
 
 
-    fun toogleIAButton(idPlayer: Int, button: View){
+    fun toogleIAButton(idPlayer: Int, button: View) {
         if(button !is CheckBox) return;
 
         val checkBox:CheckBox = button;
@@ -117,8 +117,7 @@ class MainActivity : Activity() {
         }
     }
 
-    fun onButtonPlayerClicked(isIACheckd: Boolean)
-    {
+    fun onButtonPlayerClicked(isIACheckd: Boolean) {
         if(isIACheckd) doIAChoise();
         else nextPlayer()
     }
@@ -203,23 +202,25 @@ class MainActivity : Activity() {
     //Check and add all valids cells for current player
     fun checkAndAddAllValidsCells() {
         cleanCellsValids()
-        val currentPlayer = model.players[model.currentIdPlayer]
+        val currentPlayer = getCurrentPlayer()
 
-        val idPlayer = if(currentPlayer.score <= 0 && currentPlayer.idRevenge != ID_PLAYER_EMPTY) currentPlayer.idRevenge else currentPlayer.idPlayer
+        val idPlayer =
+            if(currentPlayer.score <= 0 && currentPlayer.idRevenge != ID_PLAYER_EMPTY) currentPlayer.idRevenge
+            else currentPlayer.idPlayer
 
-        var index = 0
-        model.grid.forEach {
-            if (it.idPlayer == idPlayer) {
 
-                // Check all valids
-                for(x in -1 .. 1) {
-                    for(y in -1 .. 1) {
+        model.grid.forEach {cell ->
+            if (cell.idPlayer == idPlayer) {
+
+                // Check all valids in all 8 directions
+                for(x in WEST.x .. EAST.x) {
+                    for(y in NORTH.y .. SOUTH.y) {
                         val direction = Pair(x, y)
 
-                        if(direction.x == 0 && direction.y == 0) continue
+                        if(direction.x == 0 && direction.y == 0) continue // Ignore 0, 0 because its not a direction
 
                         val idsCellEnemiesFound: ArrayList<Int> = ArrayList()
-                        var coordinates: Pair<Int, Int> = index.toCoordinates().plus(direction)
+                        var coordinates: Pair<Int, Int> = cell.idCell.toCoordinates().plus(direction)
                         while (
                             (direction.x != 0 && coordinates.x in 0 until NB_COLUMNS)
                             || (direction.y != 0 && coordinates.y in 0 until NB_ROWS)) {
@@ -245,8 +246,6 @@ class MainActivity : Activity() {
                 }
 
             }
-
-            index++
         }
     }
 
@@ -257,8 +256,8 @@ class MainActivity : Activity() {
         model.grid.forEach {
             if (it.idPlayer == idPlayer) {
                 // Check all valids
-                for(x in -1 .. 1) {
-                    for(y in -1 .. 1) {
+                for(x in WEST.x .. EAST.x) {
+                    for(y in NORTH.y .. SOUTH.y) {
                         val direction = Pair(x, y)
 
                         if(direction.x == 0 && direction.y == 0) continue
@@ -302,13 +301,13 @@ class MainActivity : Activity() {
             .forEach { cell -> cell.idPlayer = ID_PLAYER_EMPTY }
     }
 
-    fun GetCurrentPlayer(): Player {
+    fun getCurrentPlayer(): Player {
         return model.players[model.currentIdPlayer];
     }
 
     fun refresh() {
 
-        val currentPlayer = GetCurrentPlayer();
+        val currentPlayer = getCurrentPlayer();
         // update display of current player
         binding.turnIcon.setBackgroundResource(currentPlayer.idDisc)
 
@@ -320,8 +319,6 @@ class MainActivity : Activity() {
             binding.turnRevengeIcon.visibility = View.INVISIBLE
             binding.turnRevengeSeparator.visibility = View.INVISIBLE
         }
-/*        else
-            binding.turnRevenge.visibility = 0*/
 
         // update player corners (score, state of skip button)
         refreshPlayers();
@@ -392,17 +389,6 @@ private operator fun Int.plus(direction: Pair<Int, Int>): Int? =
         else
             null
     }
-
-/*
-{
-    val asCoordinates = toCoordinates() + direction
-    return if ((0 until MainActivity.NB_COLUMNS).contains(asCoordinates.x) &&
-        (0 until MainActivity.NB_ROWS).contains(asCoordinates.y))
-        asCoordinates.toIndex()
-    else
-        null
-}
-*/
 
 private operator fun <T> Array<T>.get(i: Int?): T? {
     i ?: return null
