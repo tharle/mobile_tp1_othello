@@ -35,7 +35,29 @@ data class Model(
         Player(3, R.drawable.filled_disc_player_3)
     ),
     var currentIdPlayer: Int = 0
-) : Parcelable
+) : Parcelable {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Model
+
+        if (!grid.contentEquals(other.grid)) return false
+        if (validIdCells != other.validIdCells) return false
+        if (!players.contentEquals(other.players)) return false
+        if (currentIdPlayer != other.currentIdPlayer) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = grid.contentHashCode()
+        result = 31 * result + validIdCells.hashCode()
+        result = 31 * result + players.contentHashCode()
+        result = 31 * result + currentIdPlayer
+        return result
+    }
+}
 
 class MainActivity : Activity() {
 
@@ -47,9 +69,10 @@ class MainActivity : Activity() {
         const val NB_ROWS = 8
         const val ID_PLAYER_EMPTY = -1
         const val ID_PLAYER_VALID = 666
+        const val KEY_MODEL = "KEY_MODEL"
         val ID_DISC_EMPTY = R.drawable.empty_disc
         val ID_DISC_VALID = R.drawable.filled_disc
-        val KEY_MODEL = "KEY_MODEL"
+
 
         val NORTH = Pair(0, -1)
         val WEST = Pair(-1, 0)
@@ -83,7 +106,7 @@ class MainActivity : Activity() {
         initGrid()
     }
 
-    fun initGrid() {
+    private fun initGrid() {
 
         model.grid.forEach {
             it.idPlayer = ID_PLAYER_EMPTY
@@ -99,7 +122,7 @@ class MainActivity : Activity() {
     }
 
 
-    fun toogleIAButton(idPlayer: Int, button: View) {
+    private fun toogleIAButton(idPlayer: Int, button: View) {
         if(button !is CheckBox) return;
 
         val checkBox:CheckBox = button;
@@ -122,13 +145,13 @@ class MainActivity : Activity() {
         }
     }
 
-    fun onButtonPlayerClicked(isIACheckd: Boolean) {
+    private fun onButtonPlayerClicked(isIACheckd: Boolean) {
         if(isIACheckd) doIAChoise();
         else nextPlayer()
     }
 
 
-    fun onButtonGridClicked(index: Int) {
+    private fun onButtonGridClicked(index: Int) {
         val coordinates: Pair<Int, Int> = index.toCoordinates()
 
         Log.d(TAG, "onButtonClicked($index) = $coordinates")
@@ -153,7 +176,7 @@ class MainActivity : Activity() {
         nextPlayer();
     }
 
-    fun updateScores(){
+    private fun updateScores(){
         model.players.forEach { player ->
             player.score = 0
             player.idRevenge = if(player.idRevenge == ID_PLAYER_EMPTY) model.currentIdPlayer else player.idRevenge
@@ -167,7 +190,7 @@ class MainActivity : Activity() {
             }
     }
 
-    fun nextPlayer() {
+    private fun nextPlayer() {
         model.currentIdPlayer++
         model.currentIdPlayer =
             if (model.currentIdPlayer < model.players.size) model.currentIdPlayer else 0
@@ -177,35 +200,36 @@ class MainActivity : Activity() {
         refresh()
     }
 
-    fun doIAChoise() {
+    private fun doIAChoise() {
 
         if(model.validIdCells.isEmpty())
         {
             nextPlayer()
-            return;
+            return
         }
 
         // IA will aways try to get the conner
         var idCellsFound : List<Int> = model.validIdCells
             .filter { index : Int ->
                 val coordinates = index.toCoordinates()
-                coordinates.x == 0 || coordinates.x == NB_COLUMNS || coordinates.y == 0 || coordinates.y == NB_ROWS }
+                coordinates.x == 0 || coordinates.x == (NB_COLUMNS - 1) || coordinates.y == 0 || coordinates.y == (NB_ROWS - 1) }
 
         if(idCellsFound.isEmpty()) idCellsFound = model.validIdCells
-        if(idCellsFound.isEmpty()) return;
+        val indexMax = idCellsFound.size - 1
+        if(indexMax < 0) return
 
-        val indexIA = Random.nextInt(idCellsFound.size - 1)
+        val indexIA = if(indexMax > 0) Random.nextInt(indexMax) else 0
         onButtonGridClicked(idCellsFound[indexIA])
 
     }
 
-    fun addValidCell(index: Int) {
+    private fun addValidCell(index: Int) {
         model.validIdCells.add(index)
         model.grid[index].idPlayer = ID_PLAYER_VALID
     }
 
     //Check and add all valids cells for current player
-    fun checkAndAddAllValidsCells() {
+    private fun checkAndAddAllValidsCells() {
         cleanCellsValids()
         val currentPlayer = getCurrentPlayer()
 
@@ -254,7 +278,7 @@ class MainActivity : Activity() {
         }
     }
 
-    fun convertirAllCell(startPosition: Pair<Int, Int>) {
+    private fun convertirAllCell(startPosition: Pair<Int, Int>) {
 
         val allIdCellsToConvert: ArrayList<Int> = ArrayList()
         val player = getCurrentPlayer()
@@ -300,18 +324,18 @@ class MainActivity : Activity() {
         allIdCellsToConvert.forEach{idCell -> model.grid[idCell]?.idPlayer = player.idPlayer}
     }
 
-    fun cleanCellsValids() {
+    private fun cleanCellsValids() {
         model.validIdCells.clear()
         model.grid
             .filter { cell -> cell.idPlayer == ID_PLAYER_VALID }
             .forEach { cell -> cell.idPlayer = ID_PLAYER_EMPTY }
     }
 
-    fun getCurrentPlayer(): Player {
+    private fun getCurrentPlayer(): Player {
         return model.players[model.currentIdPlayer];
     }
 
-    fun refresh() {
+    private fun refresh() {
 
         val currentPlayer = getCurrentPlayer();
         // update display of current player
@@ -344,7 +368,7 @@ class MainActivity : Activity() {
             }
     }
 
-    fun refreshPlayers() {
+    private fun refreshPlayers() {
         var player: Player = model.players[0]
         binding.player0Icon.setBackgroundResource(player.idDisc)
         binding.player0Score.text = player.score.toString()
