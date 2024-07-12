@@ -7,19 +7,19 @@ import android.view.View
 import android.widget.CheckBox
 import androidx.core.view.children
 import ca.bart.guifra.tp.databinding.ActivityMainBinding
+import kotlin.random.Random
 
 
-data class Cell(var idPlayer: Int = -1)
+data class Cell(var idCell: Int, var idPlayer: Int = -1)
 
 data class Player(
     var idPlayer: Int,
     var idDisc: Int = R.drawable.filled_disc,
-    var score: Int = 0,
-    var isIA: Boolean = false
+    var score: Int = 0
 )
 
 data class Model(
-    val grid: Array<Cell> = Array(64) { Cell() },
+    val grid: Array<Cell> = Array(64) { Cell(it) },
     val validIdCells: ArrayList<Int> = arrayListOf<Int>(),
     val players: Array<Player> = arrayOf(
         Player(0, R.drawable.filled_disc_player_0),
@@ -60,14 +60,14 @@ class MainActivity : Activity() {
         setContentView(binding.root)
         binding.grid.children.forEachIndexed { index, button ->
             button.setOnClickListener {
-                onButtonClicked(index)
+                onButtonGridClicked(index)
             }
         }
 
-        binding.player0Button.setOnClickListener { nextPlayer() }
-        binding.player1Button.setOnClickListener { nextPlayer() }
-        binding.player2Button.setOnClickListener { nextPlayer() }
-        binding.player3Button.setOnClickListener { nextPlayer() }
+        binding.player0Button.setOnClickListener { onButtonPlayerClicked(binding.player0CbIA.isChecked) }
+        binding.player1Button.setOnClickListener { onButtonPlayerClicked(binding.player1CbIA.isChecked) }
+        binding.player2Button.setOnClickListener { onButtonPlayerClicked(binding.player2CbIA.isChecked) }
+        binding.player3Button.setOnClickListener { onButtonPlayerClicked(binding.player3CbIA.isChecked) }
 
         binding.player0CbIA.setOnClickListener { toogleIAButton(0, it) }
         binding.player1CbIA.setOnClickListener { toogleIAButton(1, it) }
@@ -76,6 +76,22 @@ class MainActivity : Activity() {
 
         initGrid()
     }
+
+    fun initGrid() {
+
+        model.grid.forEach {
+            it.idPlayer = ID_PLAYER_EMPTY
+        }
+
+        model.grid[27].idPlayer = 0
+        model.grid[28].idPlayer = 1
+        model.grid[35].idPlayer = 3
+        model.grid[36].idPlayer = 2
+        model.players.forEach { player -> player.score = 1 }
+        checkAndAddAllValidsCells()
+        refresh()
+    }
+
 
     fun toogleIAButton(idPlayer: Int, button: View){
         if(button !is CheckBox) return;
@@ -100,22 +116,14 @@ class MainActivity : Activity() {
         }
     }
 
-    fun initGrid() {
-
-        model.grid.forEach {
-            it.idPlayer = ID_PLAYER_EMPTY
-        }
-
-        model.grid[27].idPlayer = 0
-        model.grid[28].idPlayer = 1
-        model.grid[35].idPlayer = 3
-        model.grid[36].idPlayer = 2
-        model.players.forEach { player -> player.score = 1 }
-        checkAndAddAllValidsCells()
-        refresh()
+    fun onButtonPlayerClicked(isIACheckd: Boolean)
+    {
+        if(isIACheckd) doIAChoise();
+        else nextPlayer()
     }
 
-    fun onButtonClicked(index: Int) {
+
+    fun onButtonGridClicked(index: Int) {
         val coordinates: Pair<Int, Int> = index.toCoordinates()
 
         Log.d(TAG, "onButtonClicked($index) = $coordinates")
@@ -156,6 +164,27 @@ class MainActivity : Activity() {
         checkAndAddAllValidsCells()
 
         refresh()
+    }
+
+    fun doIAChoise() {
+
+        if(model.validIdCells.isEmpty())
+        {
+            nextPlayer()
+            return;
+        }
+
+        // IA will aways try to get the conner
+        var idCellsFound : List<Int> = model.validIdCells
+            .filter { index : Int ->
+                val coordinates = index.toCoordinates()
+                coordinates.x == 0 || coordinates.x == NB_COLUMNS || coordinates.y == 0 || coordinates.y == NB_ROWS }
+
+        if(idCellsFound.isEmpty()) idCellsFound = model.validIdCells
+
+        val indexIA = Random.nextInt(idCellsFound.size - 1)
+        onButtonGridClicked(indexIA)
+
     }
 
     fun addValidCell(index: Int) {
