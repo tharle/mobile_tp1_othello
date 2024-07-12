@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Tharle - Othello</string>
+    <string name="ai">AI</string>
+    <string name="pass">Pass</string>
+    <string name="turn">Turn</string>
+    <string name="play">Play</string>
 </resources>

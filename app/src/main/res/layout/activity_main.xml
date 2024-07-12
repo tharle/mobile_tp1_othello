@@ -27,7 +27,7 @@
                 android:id="@+id/player_0_score"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="30dp"
+                android:textSize="20dp"
                 android:text="0"
                 />
         </LinearLayout>
@@ -35,15 +35,15 @@
             android:id="@+id/player_0_cbIA"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="30dp"
-            android:text="AI"
+            android:textSize="20dp"
+            android:text="@string/ai"
             android:layoutDirection="ltr"
             />
         <Button
             android:id="@+id/player_0_button"
             android:layout_width="100dp"
             android:layout_height="50dp"
-            android:text="Pass"
+            android:text="@string/pass"
             android:enabled="false"
             />
     </LinearLayout>
@@ -66,7 +66,7 @@
                 android:id="@+id/player_1_score"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="30dp"
+                android:textSize="20dp"
                 android:text="0"
                 />
             <Button
@@ -79,8 +79,8 @@
             android:id="@+id/player_1_cbIA"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="30dp"
-            android:text="AI"
+            android:textSize="20dp"
+            android:text="@string/ai"
             android:layoutDirection="rtl"
 
             />
@@ -88,7 +88,7 @@
             android:id="@+id/player_1_button"
             android:layout_width="100dp"
             android:layout_height="50dp"
-            android:text="Pass"
+            android:text="@string/pass"
             android:enabled="false"
             />
     </LinearLayout>
@@ -111,7 +111,7 @@
                 android:id="@+id/player_2_score"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="30dp"
+                android:textSize="20dp"
                 android:text="0"
                 />
             <Button
@@ -124,8 +124,8 @@
             android:id="@+id/player_2_cbIA"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="30dp"
-            android:text="AI"
+            android:textSize="20dp"
+            android:text="@string/ai"
             android:layoutDirection="rtl"
 
             />
@@ -133,7 +133,7 @@
             android:id="@+id/player_2_button"
             android:layout_width="100dp"
             android:layout_height="50dp"
-            android:text="Pass"
+            android:text="@string/pass"
             android:enabled="false"
             />
     </LinearLayout>
@@ -160,7 +160,7 @@
                 android:id="@+id/player_3_score"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="30dp"
+                android:textSize="20dp"
                 android:text="0"
                 />
         </LinearLayout>
@@ -168,15 +168,15 @@
             android:id="@+id/player_3_cbIA"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="30dp"
-            android:text="AI"
+            android:textSize="20dp"
+            android:text="@string/ai"
             android:layoutDirection="ltr"
             />
         <Button
             android:id="@+id/player_3_button"
             android:layout_width="100dp"
             android:layout_height="50dp"
-            android:text="Pass"
+            android:text="@string/pass"
             android:enabled="false"
             />
     </LinearLayout>
@@ -193,7 +193,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Turn"
+            android:text="@string/turn"
             android:textSize="30dp"
             />
         <LinearLayout
@@ -211,6 +211,7 @@
                 android:id="@+id/turn_revenge_separator"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="20dp"
                 android:text="/"
                 />
             <Button

@@ -97,7 +97,7 @@ class MainActivity : Activity() {
 
         val checkBox:CheckBox = button;
 
-        val buttonText = if(checkBox.isChecked) "Play" else "Pass"
+        val buttonText = getString(if(checkBox.isChecked) R.string.play else R.string.pass)
 
         when(idPlayer){
             0 -> {
