@@ -1,24 +1,30 @@
 package ca.bart.guifra.tp
 
 import android.app.Activity
+import android.os.Build
 import android.os.Bundle
+import android.os.Parcelable
 import android.util.Log
 import android.view.View
 import android.widget.CheckBox
 import androidx.core.view.children
 import ca.bart.guifra.tp.databinding.ActivityMainBinding
+import kotlinx.parcelize.Parcelize
 import kotlin.random.Random
 
 
-data class Cell(var idCell: Int, var idPlayer: Int = -1)
+@Parcelize
+data class Cell(var idCell: Int, var idPlayer: Int = -1) : Parcelable
 
+@Parcelize
 data class Player(
     var idPlayer: Int,
     var idDisc: Int = R.drawable.filled_disc,
     var score: Int = 0,
     var idRevenge: Int = MainActivity.ID_PLAYER_EMPTY
-)
+) : Parcelable
 
+@Parcelize
 data class Model(
     val grid: Array<Cell> = Array(64) { Cell(it) },
     val validIdCells: ArrayList<Int> = arrayListOf<Int>(),
@@ -29,7 +35,7 @@ data class Model(
         Player(3, R.drawable.filled_disc_player_3)
     ),
     var currentIdPlayer: Int = 0
-)
+) : Parcelable
 
 class MainActivity : Activity() {
 
@@ -43,6 +49,7 @@ class MainActivity : Activity() {
         const val ID_PLAYER_VALID = 666
         val ID_DISC_EMPTY = R.drawable.empty_disc
         val ID_DISC_VALID = R.drawable.filled_disc
+        val KEY_MODEL = "KEY_MODEL"
 
         val NORTH = Pair(0, -1)
         val WEST = Pair(-1, 0)
@@ -52,7 +59,7 @@ class MainActivity : Activity() {
 
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
 
-    val model = Model()
+    var model = Model()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -362,6 +369,42 @@ class MainActivity : Activity() {
         binding.player3Button.isEnabled = model.currentIdPlayer == player.idPlayer
         binding.player3CbIA.isEnabled = model.currentIdPlayer == player.idPlayer
     }
+
+
+    override fun onSaveInstanceState(outState: Bundle) {
+
+        Log.d(TAG, "onSaveInstanceState($outState)");
+
+        super.onSaveInstanceState(outState)
+
+        //outState.putBoolean(KEY_MODEL, model.IsButtonClicked)
+        outState.putParcelable(KEY_MODEL, model)
+
+
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+
+        Log.d(TAG, "onRestoreInstanceState($savedInstanceState)");
+
+        super.onRestoreInstanceState(savedInstanceState)
+
+        //model.IsButtonClicked = savedInstanceState.getBoolean(KEY_MODEL, false)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            savedInstanceState.getParcelable(KEY_MODEL, Model::class.java)?.let {
+                model = it
+            }
+        } else {
+            savedInstanceState.getParcelable<Model>(KEY_MODEL)?.let {
+                model = it
+            }
+        }
+
+
+        refresh()
+
+    }
+
 }
 
 
