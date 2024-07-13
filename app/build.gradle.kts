@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "ca.bart.guifra.tp"
+    namespace = "ca.bart.tharle.othello"
     compileSdk = 33
 
     defaultConfig {
-        applicationId = "ca.bart.guifra.tp"
+        applicationId = "ca.bart.tharle.othello"
         minSdk = 19
         targetSdk = 33
         versionCode = 1

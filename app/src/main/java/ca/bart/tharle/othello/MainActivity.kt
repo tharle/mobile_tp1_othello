@@ -1,8 +1,7 @@
-package ca.bart.guifra.tp
+package ca.bart.tharle.othello
 
 import android.app.Activity
 import android.app.AlertDialog
-import android.app.Application
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
@@ -10,7 +9,8 @@ import android.util.Log
 import android.view.View
 import android.widget.CheckBox
 import androidx.core.view.children
-import ca.bart.guifra.tp.databinding.ActivityMainBinding
+import ca.bart.tharle.othello.R
+import ca.bart.tharle.othello.databinding.ActivityMainBinding
 import kotlinx.parcelize.Parcelize
 import kotlin.random.Random
 
